@@ -15,7 +15,7 @@ export class ListeSallesComponent implements OnInit {
   salles: Salle[] = [];
   filtre = '';
   filtreType = '';
-  confirmation: number | null = null;
+  suppressionEnAttente: number | null = null;
 
   types = [
     { valeur:'amphitheatre', label:'Amphithéâtre'     },
@@ -24,30 +24,30 @@ export class ListeSallesComponent implements OnInit {
     { valeur:'labo_tp',      label:'Laboratoire TP'    },
   ];
 
-  constructor(private service: SalleService) {}
+  constructor(private serviceSalle: SalleService) {}
 
   ngOnInit() {
-    this.service.getSalles().subscribe(d => this.salles = d);
+    this.serviceSalle.getSalles().subscribe(donnees => this.salles = donnees);
   }
 
-  get filtrees(): Salle[] {
-    const q = this.filtre.toLowerCase();
-    return this.salles.filter(s =>
-      (s.nom.toLowerCase().includes(q) || s.batiment.toLowerCase().includes(q)) &&
-      (!this.filtreType || s.type === this.filtreType)
+  get sallesFiltrees(): Salle[] {
+    const recherche = this.filtre.toLowerCase();
+    return this.salles.filter(salle =>
+      (salle.nom.toLowerCase().includes(recherche) || salle.batiment.toLowerCase().includes(recherche)) &&
+      (!this.filtreType || salle.type === this.filtreType)
     );
   }
 
   supprimer(id: number) {
-    this.salles = this.salles.filter(s => s.id !== id);
-    this.confirmation = null;
+    this.salles = this.salles.filter(salle => salle.id !== id);
+    this.suppressionEnAttente = null;
   }
 
-  typeLabel(type: string): string {
-    return this.service.getTypeLabel(type);
+  libelleType(type: string): string {
+    return this.serviceSalle.getTypeLabel(type);
   }
 
-  typeIcon(type: string): string {
+  iconeType(type: string): string {
     return {
       amphitheatre: 'bi-person-video2',
       salle_cours:  'bi-building',
@@ -56,7 +56,7 @@ export class ListeSallesComponent implements OnInit {
     }[type] || 'bi-door-open';
   }
 
-  typeBadge(type: string): string {
+  badgeType(type: string): string {
     return { amphitheatre:'violet', salle_cours:'cours', labo_info:'td', labo_tp:'tp' }[type] || 'cours';
   }
 }

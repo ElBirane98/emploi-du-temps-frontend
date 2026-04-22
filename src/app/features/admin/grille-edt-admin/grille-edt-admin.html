@@ -23,8 +23,8 @@
       <span class="filter-label">Classe / Groupe</span>
       <select class="filter-select" [(ngModel)]="filtreClasse">
         <option value="">Toutes les classes</option>
-        @for (c of classes; track c) {
-          <option [value]="c">{{ c }}</option>
+        @for (classe of classesDisponibles; track classe) {
+          <option [value]="classe">{{ classe }}</option>
         }
       </select>
     </div>
@@ -32,8 +32,8 @@
       <span class="filter-label">Enseignant</span>
       <select class="filter-select" [(ngModel)]="filtreEnseignant">
         <option value="">Tous les enseignants</option>
-        @for (e of enseignants; track e.id) {
-          <option [value]="e.nom">{{ e.prenom }} {{ e.nom }}</option>
+        @for (enseignant of enseignants; track enseignant.id) {
+          <option [value]="enseignant.nom">{{ enseignant.prenom }} {{ enseignant.nom }}</option>
         }
       </select>
     </div>
@@ -41,8 +41,8 @@
       <span class="filter-label">Salle</span>
       <select class="filter-select" [(ngModel)]="filtreSalle">
         <option value="">Toutes les salles</option>
-        @for (s of salles; track s.id) {
-          <option [value]="s.nom">{{ s.nom }}</option>
+        @for (salle of salles; track salle.id) {
+          <option [value]="salle.nom">{{ salle.nom }}</option>
         }
       </select>
     </div>
@@ -79,26 +79,26 @@
           </tr>
         </thead>
         <tbody>
-          @for (cr of creneaux; track cr.debut) {
+          @for (creneau of creneauxHoraires; track creneau.debut) {
             <tr>
               <td class="heure-cell">
-                <div style="font-weight:700">{{ cr.debut }}</div>
-                <div style="font-size:.68rem;color:var(--text-muted);margin-top:2px">{{ cr.fin }}</div>
+                <div style="font-weight:700">{{ creneau.debut }}</div>
+                <div style="font-size:.68rem;color:var(--text-muted);margin-top:2px">{{ creneau.fin }}</div>
               </td>
               @for (jour of jours; track jour) {
                 <td>
-                  @for (s of getSeancesPour(jour, cr.debut); track s.id) {
-                    <div class="seance-card {{ cssSeance(s.type) }}" (click)="selectionner(s)">
-                      <div class="seance-cours">{{ s.cours }}</div>
+                  @for (seance of obtenirSeancesPour(jour, creneau.debut); track seance.id) {
+                    <div class="seance-card {{ classeSeance(seance.type) }}" (click)="ouvrirDetailSeance(seance)">
+                      <div class="seance-cours">{{ seance.cours }}</div>
                       <div class="seance-meta">
-                        <i class="bi bi-person-fill" style="font-size:.65rem"></i> {{ s.enseignant }}
+                        <i class="bi bi-person-fill" style="font-size:.65rem"></i> {{ seance.enseignant }}
                         &nbsp;·&nbsp;
-                        <i class="bi bi-door-open" style="font-size:.65rem"></i> {{ s.salle }}
+                        <i class="bi bi-door-open" style="font-size:.65rem"></i> {{ seance.salle }}
                       </div>
-                      <span class="seance-badge {{ s.type }}">{{ s.type | uppercase }}</span>
+                      <span class="seance-badge {{ seance.type }}">{{ seance.type | uppercase }}</span>
                     </div>
                   }
-                  @if (getSeancesPour(jour, cr.debut).length === 0) {
+                  @if (obtenirSeancesPour(jour, creneau.debut).length === 0) {
                     <div class="edt-cell-empty">—</div>
                   }
                 </td>
@@ -111,7 +111,7 @@
   </div>
 
   <!-- Modal détail séance -->
-  @if (seanceSelectionnee) {
+  @if (detailSeance) {
     <div class="modal-backdrop-custom" (click)="fermerDetail()"
          style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1050;display:flex;align-items:center;justify-content:center">
       <div class="card-premium" (click)="$event.stopPropagation()"
@@ -128,38 +128,38 @@
         </div>
         <div class="p-4">
           <div class="mb-3">
-            <span class="seance-badge {{ seanceSelectionnee.type }}" style="font-size:.75rem;padding:4px 12px">{{ seanceSelectionnee.type | uppercase }}</span>
+            <span class="seance-badge {{ detailSeance.type }}" style="font-size:.75rem;padding:4px 12px">{{ detailSeance.type | uppercase }}</span>
           </div>
-          <h5 class="fw-bold mb-3" style="color:var(--text-primary)">{{ seanceSelectionnee.cours }}</h5>
+          <h5 class="fw-bold mb-3" style="color:var(--text-primary)">{{ detailSeance.cours }}</h5>
           <div class="d-flex flex-column gap-2" style="font-size:.875rem">
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-calendar3" style="color:var(--primary);width:18px"></i>
               <span style="color:var(--text-secondary)">Jour :</span>
-              <strong>{{ seanceSelectionnee.jour }}</strong>
+              <strong>{{ detailSeance.jour }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-clock" style="color:var(--primary);width:18px"></i>
               <span style="color:var(--text-secondary)">Horaire :</span>
-              <strong>{{ seanceSelectionnee.heure_debut }} — {{ seanceSelectionnee.heure_fin }}</strong>
+              <strong>{{ detailSeance.heure_debut }} — {{ detailSeance.heure_fin }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-person-badge" style="color:var(--primary);width:18px"></i>
               <span style="color:var(--text-secondary)">Enseignant :</span>
-              <strong>{{ seanceSelectionnee.enseignant }}</strong>
+              <strong>{{ detailSeance.enseignant }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-door-open" style="color:var(--primary);width:18px"></i>
               <span style="color:var(--text-secondary)">Salle :</span>
-              <strong>{{ seanceSelectionnee.salle }}</strong>
+              <strong>{{ detailSeance.salle }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-diagram-3" style="color:var(--primary);width:18px"></i>
               <span style="color:var(--text-secondary)">Classe :</span>
-              <strong>{{ seanceSelectionnee.classe }}</strong>
+              <strong>{{ detailSeance.classe }}</strong>
             </div>
           </div>
           <div class="d-flex gap-2 mt-4">
-            <a [routerLink]="['/admin/formulaire-seance', seanceSelectionnee.id]" class="btn-primary-custom flex-fill justify-content-center">
+            <a [routerLink]="['/admin/formulaire-seance', detailSeance.id]" class="btn-primary-custom flex-fill justify-content-center">
               <i class="bi bi-pencil"></i> Modifier
             </a>
             <button class="btn-outline-custom" style="color:#dc2626;border-color:#dc2626" (click)="fermerDetail()">

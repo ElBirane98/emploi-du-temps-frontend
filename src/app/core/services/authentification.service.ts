@@ -8,9 +8,9 @@ export class AuthentificationService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  connexion(email: string, motDePasse: string) {
+  connexion(courriel: string, motDePasse: string) {
     return this.http.post(`${this.apiUrl}/login`, {
-      email, password: motDePasse
+      email: courriel, password: motDePasse
     });
   }
 

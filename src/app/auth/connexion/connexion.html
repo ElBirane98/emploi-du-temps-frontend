@@ -52,18 +52,18 @@
         </div>
       }
 
-      <form (ngSubmit)="seConnecter()" #loginForm="ngForm">
+      <form (ngSubmit)="seConnecter()" #formulaireConnexion="ngForm">
         <div class="form-group">
-          <label class="form-label-custom" for="email">Adresse email</label>
+          <label class="form-label-custom" for="courriel">Adresse email</label>
           <div class="login-input-wrap">
             <i class="bi bi-envelope login-input-icon"></i>
             <input
-              id="email"
+              id="courriel"
               type="email"
               class="form-control-custom"
               placeholder="admin@ugb.edu.sn"
-              [(ngModel)]="email"
-              name="email"
+              [(ngModel)]="courriel"
+              name="courriel"
               required
             />
           </div>
@@ -75,7 +75,7 @@
             <i class="bi bi-lock login-input-icon"></i>
             <input
               id="motDePasse"
-              [type]="afficherMDP ? 'text' : 'password'"
+              [type]="afficherMotDePasse ? 'text' : 'password'"
               class="form-control-custom"
               placeholder="••••••••"
               [(ngModel)]="motDePasse"
@@ -84,9 +84,9 @@
               style="padding-right:42px"
             />
             <button type="button"
-              (click)="afficherMDP = !afficherMDP"
+              (click)="afficherMotDePasse = !afficherMotDePasse"
               style="position:absolute;right:12px;top:50%;transform:translateY(-50%);border:none;background:none;color:var(--text-muted);cursor:pointer;font-size:.9rem">
-              <i class="bi" [class.bi-eye]="!afficherMDP" [class.bi-eye-slash]="afficherMDP"></i>
+              <i class="bi" [class.bi-eye]="!afficherMotDePasse" [class.bi-eye-slash]="afficherMotDePasse"></i>
             </button>
           </div>
         </div>

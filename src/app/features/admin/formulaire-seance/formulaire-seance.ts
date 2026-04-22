@@ -15,7 +15,7 @@ import { SalleService } from '../../../core/services/salle.service';
   styleUrl: './formulaire-seance.css'
 })
 export class FormulaireSeanceComponent implements OnInit {
-  form!: FormGroup;
+  formulaireSeance!: FormGroup;
   modeEdition = false;
   seanceId: number | null = null;
   enregistrement = false;
@@ -30,24 +30,24 @@ export class FormulaireSeanceComponent implements OnInit {
     { valeur:'tp',     label:'Travaux Pratiques (TP)' },
     { valeur:'examen', label:'Examen' },
   ];
-  classes   = ['M1-GDIL','L3-INFO','M2-GDIL','L2-INFO'];
+  classesDisponibles = ['M1-GDIL','L3-INFO','M2-GDIL','L2-INFO'];
 
   enseignants: any[] = [];
-  coursList  : any[] = [];
+  listeCours : any[] = [];
   salles     : any[] = [];
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private seanceService: SeanceService,
-    private enseignantService: EnseignantService,
-    private coursService: CoursService,
-    private salleService: SalleService
+    private generateurFormulaire: FormBuilder,
+    private routeur: Router,
+    private routeActive: ActivatedRoute,
+    private serviceSeance: SeanceService,
+    private serviceEnseignant: EnseignantService,
+    private serviceCours: CoursService,
+    private serviceSalle: SalleService
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.formulaireSeance = this.generateurFormulaire.group({
       jour:         ['Lundi',   Validators.required],
       heure_debut:  ['08:00',   Validators.required],
       heure_fin:    ['10:00',   Validators.required],
@@ -58,28 +58,28 @@ export class FormulaireSeanceComponent implements OnInit {
       type:         ['cours',   Validators.required],
     });
 
-    this.enseignantService.getEnseignants().subscribe(d => this.enseignants = d);
-    this.coursService.getCours().subscribe(d => this.coursList = d);
-    this.salleService.getSalles().subscribe(d => this.salles = d.filter(s => s.disponible));
+    this.serviceEnseignant.getEnseignants().subscribe(donnees => this.enseignants = donnees);
+    this.serviceCours.getCours().subscribe(donnees => this.listeCours = donnees);
+    this.serviceSalle.getSalles().subscribe(donnees => this.salles = donnees.filter(salle => salle.disponible));
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
+    const identifiant = this.routeActive.snapshot.paramMap.get('id');
+    if (identifiant) {
       this.modeEdition = true;
-      this.seanceId = +id;
-      this.seanceService.getSeanceById(this.seanceId).subscribe(s => {
-        if (s) this.form.patchValue(s);
+      this.seanceId = +identifiant;
+      this.serviceSeance.getSeanceById(this.seanceId).subscribe(seance => {
+        if (seance) this.formulaireSeance.patchValue(seance);
       });
     }
 
-    this.route.queryParams.subscribe(params => {
-      if (params['enseignant']) {
-        this.form.patchValue({ enseignant: params['enseignant'] });
+    this.routeActive.queryParams.subscribe(parametres => {
+      if (parametres['enseignant']) {
+        this.formulaireSeance.patchValue({ enseignant: parametres['enseignant'] });
       }
     });
   }
 
   enregistrer() {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.formulaireSeance.invalid) { this.formulaireSeance.markAllAsTouched(); return; }
     this.enregistrement = true;
     this.erreur = '';
 
@@ -87,14 +87,14 @@ export class FormulaireSeanceComponent implements OnInit {
     setTimeout(() => {
       this.enregistrement = false;
       this.succes = true;
-      setTimeout(() => this.router.navigate(['/admin/grille-edt']), 1500);
+      setTimeout(() => this.routeur.navigate(['/admin/grille-edt']), 1500);
     }, 900);
   }
 
-  annuler() { this.router.navigate(['/admin/grille-edt']); }
+  annuler() { this.routeur.navigate(['/admin/grille-edt']); }
 
-  isInvalid(champ: string) {
-    const ctrl = this.form.get(champ);
-    return ctrl && ctrl.invalid && ctrl.touched;
+  champInvalide(champ: string) {
+    const controle = this.formulaireSeance.get(champ);
+    return controle && controle.invalid && controle.touched;
   }
 }

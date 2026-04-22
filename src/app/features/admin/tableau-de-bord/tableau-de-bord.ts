@@ -14,31 +14,31 @@ import { SalleService } from '../../../core/services/salle.service';
   styleUrl: './tableau-de-bord.css'
 })
 export class TableauDeBordComponent implements OnInit {
-  stats = { seances: 0, enseignants: 0, cours: 0, salles: 0 };
+  statistiques = { seances: 0, enseignants: 0, cours: 0, salles: 0 };
 
   activites = [
-    { titre: 'Importation des données',        statut: 'ok',   desc: 'Fichier Excel importé avec succès',      heure: 'Il y a 2h'   },
-    { titre: 'Génération des emplois du temps', statut: 'err',  desc: 'Conflit détecté sur Lundi 10h — Labo1',  heure: 'Il y a 3h'   },
-    { titre: 'Export PDF Semaine 17',           statut: 'ok',   desc: '6 emplois du temps exportés',            heure: 'Hier 14h30'  },
-    { titre: 'Nouveau cours ajouté',            statut: 'info', desc: 'Angular & Frameworks — Dr. Daiif',       heure: 'Hier 09h00'  },
-    { titre: 'Modification de salle',           statut: 'warn', desc: 'Labo2 indisponible vendredi prochain',   heure: 'Il y a 2j'   },
+    { titre: 'Importation des données', statut: 'ok', description: 'Fichier Excel importé avec succès', heure: 'Il y a 2h' },
+    { titre: 'Génération des emplois du temps', statut: 'err', description: 'Conflit détecté sur Lundi 10h — Labo1', heure: 'Il y a 3h' },
+    { titre: 'Export PDF Semaine 17', statut: 'ok', description: '6 emplois du temps exportés', heure: 'Hier 14h30' },
+    { titre: 'Nouveau cours ajouté', statut: 'info', description: 'Angular et cadriciels web — Dr. Daiif', heure: 'Hier 09h00' },
+    { titre: 'Modification de salle', statut: 'warn', description: 'Labo2 indisponible vendredi prochain', heure: 'Il y a 2j' },
   ];
 
   constructor(
-    private seanceService: SeanceService,
-    private enseignantService: EnseignantService,
-    private coursService: CoursService,
-    private salleService: SalleService
+    private serviceSeance: SeanceService,
+    private serviceEnseignant: EnseignantService,
+    private serviceCours: CoursService,
+    private serviceSalle: SalleService
   ) {}
 
   ngOnInit() {
-    this.seanceService.getSeances().subscribe(d => this.stats.seances = d.length);
-    this.enseignantService.getEnseignants().subscribe(d => this.stats.enseignants = d.length);
-    this.coursService.getCours().subscribe(d => this.stats.cours = d.length);
-    this.salleService.getSalles().subscribe(d => this.stats.salles = d.length);
+    this.serviceSeance.getSeances().subscribe(donnees => this.statistiques.seances = donnees.length);
+    this.serviceEnseignant.getEnseignants().subscribe(donnees => this.statistiques.enseignants = donnees.length);
+    this.serviceCours.getCours().subscribe(donnees => this.statistiques.cours = donnees.length);
+    this.serviceSalle.getSalles().subscribe(donnees => this.statistiques.salles = donnees.length);
   }
 
-  getStatutIcon(s: string): string {
-    return { ok:'bi-check-circle-fill', err:'bi-x-circle-fill', warn:'bi-exclamation-triangle-fill', info:'bi-info-circle-fill' }[s] || 'bi-circle';
+  obtenirIconeStatut(statut: string): string {
+    return { ok:'bi-check-circle-fill', err:'bi-x-circle-fill', warn:'bi-exclamation-triangle-fill', info:'bi-info-circle-fill' }[statut] || 'bi-circle';
   }
 }

@@ -4,16 +4,16 @@ import { Observable, of } from 'rxjs';
 import { Enseignant } from './enseignant';
 
 const ENSEIGNANTS_MOCK: Enseignant[] = [
-  { id:1,  nom:'Ba',      prenom:'Cheikh',       email:'c.ba@ugb.edu.sn',       specialite:'Mathématiques',           departement:'Dept. Sciences',  grade:'Doctorant',     actif:true  },
-  { id:2,  nom:'Gueye',   prenom:'Abdou Khadre', email:'ak.gueye@ugb.edu.sn',   specialite:'Algorithmique & IA',      departement:'Dept. Info',      grade:'Docteur',       actif:true  },
-  { id:3,  nom:'Deme',    prenom:'Elhadji',      email:'e.deme@ugb.edu.sn',     specialite:'Bases de Données',        departement:'Dept. Info',      grade:'Professeur',    actif:true  },
-  { id:4,  nom:'Lo',      prenom:'Moussa',       email:'m.lo@ugb.edu.sn',       specialite:'Génie Logiciel',          departement:'Dept. Info',      grade:'Docteur',       actif:true  },
-  { id:5,  nom:'Fall',    prenom:'Seydina',   email:'s.fall@ugb.edu.sn',     specialite:'Réseaux & Systèmes',      departement:'Dept. Réseaux',   grade:'Professeur',    actif:true  },
-  { id:6,  nom:'Daiif',   prenom:'Aziz',      email:'a.daiif@ugb.edu.sn',    specialite:'Frameworks Web',          departement:'Dept. Info',      grade:'Docteur',       actif:true  },
-  { id:7,  nom:'Camara',  prenom:'Alpha',     email:'a.camara@ugb.edu.sn',   specialite:'Intelligence Artificielle',departement:'Dept. Info',     grade:'Doctorant',     actif:true  },
-  { id:8,  nom:'Dieng',   prenom:'Fatou',     email:'f.dieng@ugb.edu.sn',    specialite:'Statistiques',            departement:'Dept. Sciences',  grade:'Maître-Assist.',actif:false },
-  { id:9,  nom:'Mbaye',   prenom:'Cheikh',    email:'c.mbaye@ugb.edu.sn',    specialite:'Sécurité Informatique',   departement:'Dept. Réseaux',   grade:'Docteur',       actif:true  },
-  { id:10, nom:'Ba',      prenom:'Mariama',   email:'m.ba@ugb.edu.sn',       specialite:'Mathématiques Discrètes', departement:'Dept. Sciences',  grade:'Maître-Assist.',actif:true  },
+  { id:1,  nom:'Ba',      prenom:'Cheikh',       courriel:'c.ba@ugb.edu.sn',       specialite:'Mathématiques',           departement:'Dept. Sciences',  grade:'Doctorant',     actif:true  },
+  { id:2,  nom:'Gueye',   prenom:'Abdou Khadre', courriel:'ak.gueye@ugb.edu.sn',   specialite:'Algorithmique & IA',      departement:'Dept. Info',      grade:'Docteur',       actif:true  },
+  { id:3,  nom:'Deme',    prenom:'Elhadji',      courriel:'e.deme@ugb.edu.sn',     specialite:'Bases de Données',        departement:'Dept. Info',      grade:'Professeur',    actif:true  },
+  { id:4,  nom:'Lo',      prenom:'Moussa',       courriel:'m.lo@ugb.edu.sn',       specialite:'Génie Logiciel',          departement:'Dept. Info',      grade:'Docteur',       actif:true  },
+  { id:5,  nom:'Fall',    prenom:'Seydina',      courriel:'s.fall@ugb.edu.sn',     specialite:'Réseaux & Systèmes',      departement:'Dept. Réseaux',   grade:'Professeur',    actif:true  },
+  { id:6,  nom:'Daiif',   prenom:'Aziz',         courriel:'a.daiif@ugb.edu.sn',    specialite:'Cadriciels Web',          departement:'Dept. Info',      grade:'Docteur',       actif:true  },
+  { id:7,  nom:'Camara',  prenom:'Alpha',        courriel:'a.camara@ugb.edu.sn',   specialite:'Intelligence Artificielle',departement:'Dept. Info',     grade:'Doctorant',     actif:true  },
+  { id:8,  nom:'Dieng',   prenom:'Fatou',        courriel:'f.dieng@ugb.edu.sn',    specialite:'Statistiques',            departement:'Dept. Sciences',  grade:'Maître-Assist.',actif:false },
+  { id:9,  nom:'Mbaye',   prenom:'Cheikh',       courriel:'c.mbaye@ugb.edu.sn',    specialite:'Sécurité Informatique',   departement:'Dept. Réseaux',   grade:'Docteur',       actif:true  },
+  { id:10, nom:'Ba',      prenom:'Mariama',      courriel:'m.ba@ugb.edu.sn',       specialite:'Mathématiques Discrètes', departement:'Dept. Sciences',  grade:'Maître-Assist.',actif:true  },
 ];
 
 @Injectable({ providedIn: 'root' })

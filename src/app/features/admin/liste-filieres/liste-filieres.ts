@@ -20,7 +20,10 @@ export class ListeFilieresComponent implements OnInit {
   constructor() {}
   ngOnInit() {}
 
-  get filtrees() {
-    return this.filieres.filter(f => f.nom.toLowerCase().includes(this.filtre.toLowerCase()) || f.libelle.toLowerCase().includes(this.filtre.toLowerCase()));
+  get filieresFiltrees() {
+    return this.filieres.filter(filiere =>
+      filiere.nom.toLowerCase().includes(this.filtre.toLowerCase()) ||
+      filiere.libelle.toLowerCase().includes(this.filtre.toLowerCase())
+    );
   }
 }

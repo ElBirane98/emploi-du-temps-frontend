@@ -19,7 +19,7 @@ export class ListeDepartementsComponent implements OnInit {
   constructor() {}
   ngOnInit() {}
 
-  get filtrees() {
-    return this.departements.filter(d => d.nom.toLowerCase().includes(this.filtre.toLowerCase()));
+  get departementsFiltres() {
+    return this.departements.filter(departement => departement.nom.toLowerCase().includes(this.filtre.toLowerCase()));
   }
 }

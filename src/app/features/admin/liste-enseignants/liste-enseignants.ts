@@ -15,34 +15,34 @@ import { Enseignant } from '../../../core/services/enseignant';
 export class ListeEnseignantsComponent implements OnInit {
   enseignants: Enseignant[] = [];
   filtre = '';
-  confirmation: number | null = null;
+  suppressionEnAttente: number | null = null;
 
-  constructor(private service: EnseignantService) {}
+  constructor(private serviceEnseignant: EnseignantService) {}
 
   ngOnInit() {
-    this.service.getEnseignants().subscribe(d => this.enseignants = d);
+    this.serviceEnseignant.getEnseignants().subscribe(donnees => this.enseignants = donnees);
   }
 
-  get filtrees(): Enseignant[] {
-    const q = this.filtre.toLowerCase();
-    return this.enseignants.filter(e =>
-      e.nom.toLowerCase().includes(q) ||
-      e.prenom.toLowerCase().includes(q) ||
-      e.specialite.toLowerCase().includes(q) ||
-      e.departement.toLowerCase().includes(q)
+  get enseignantsFiltres(): Enseignant[] {
+    const recherche = this.filtre.toLowerCase();
+    return this.enseignants.filter(enseignant =>
+      enseignant.nom.toLowerCase().includes(recherche) ||
+      enseignant.prenom.toLowerCase().includes(recherche) ||
+      enseignant.specialite.toLowerCase().includes(recherche) ||
+      enseignant.departement.toLowerCase().includes(recherche)
     );
   }
 
   supprimer(id: number) {
-    this.enseignants = this.enseignants.filter(e => e.id !== id);
-    this.confirmation = null;
+    this.enseignants = this.enseignants.filter(enseignant => enseignant.id !== id);
+    this.suppressionEnAttente = null;
   }
 
-  initiales(e: Enseignant): string {
-    return (e.prenom[0] + e.nom[0]).toUpperCase();
+  obtenirInitiales(enseignant: Enseignant): string {
+    return (enseignant.prenom[0] + enseignant.nom[0]).toUpperCase();
   }
 
-  couleurAvatar(id: number): string {
+  obtenirCouleurAvatar(id: number): string {
     const couleurs = ['#1e3a6e','#16a34a','#d97706','#7c3aed','#dc2626','#0891b2'];
     return couleurs[id % couleurs.length];
   }

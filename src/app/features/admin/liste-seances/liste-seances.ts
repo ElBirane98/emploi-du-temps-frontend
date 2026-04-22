@@ -15,22 +15,22 @@ export class ListeSeancesComponent implements OnInit {
   seances: Seance[] = [];
   filtre = '';
 
-  constructor(private service: SeanceService) {}
+  constructor(private serviceSeance: SeanceService) {}
 
   ngOnInit() {
-    this.service.getSeances().subscribe(d => this.seances = d);
+    this.serviceSeance.getSeances().subscribe(donnees => this.seances = donnees);
   }
 
-  get filtrees() {
-    const q = this.filtre.toLowerCase();
-    return this.seances.filter(s =>
-      s.cours.toLowerCase().includes(q) ||
-      s.enseignant.toLowerCase().includes(q) ||
-      s.classe.toLowerCase().includes(q)
+  get seancesFiltrees() {
+    const recherche = this.filtre.toLowerCase();
+    return this.seances.filter(seance =>
+      seance.cours.toLowerCase().includes(recherche) ||
+      seance.enseignant.toLowerCase().includes(recherche) ||
+      seance.classe.toLowerCase().includes(recherche)
     );
   }
 
-  cssType(type: string): string {
+  classeType(type: string): string {
     return { cours: 'cours', td: 'td', tp: 'tp', examen: 'examen' }[type] || 'cours';
   }
 }

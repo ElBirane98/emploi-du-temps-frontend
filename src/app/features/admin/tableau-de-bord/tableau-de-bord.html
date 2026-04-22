@@ -29,7 +29,7 @@
       <div class="stat-card amber">
         <div class="stat-icon amber"><i class="bi bi-door-open"></i></div>
         <div class="stat-info">
-          <div class="stat-value">{{ stats.salles }}</div>
+          <div class="stat-value">{{ statistiques.salles }}</div>
           <div class="stat-label">Salles</div>
           <div class="stat-change up"><i class="bi bi-arrow-up-short"></i> Disponibles</div>
         </div>
@@ -49,7 +49,7 @@
       <div class="stat-card rose">
         <div class="stat-icon rose"><i class="bi bi-person-badge"></i></div>
         <div class="stat-info">
-          <div class="stat-value">{{ stats.enseignants }}</div>
+          <div class="stat-value">{{ statistiques.enseignants }}</div>
           <div class="stat-label">Professeurs</div>
           <div class="stat-change up"><i class="bi bi-arrow-up-short"></i> Enregistrés</div>
         </div>
@@ -63,7 +63,7 @@
       <div class="stat-card violet">
         <div class="stat-icon violet"><i class="bi bi-calendar-check"></i></div>
         <div class="stat-info">
-          <div class="stat-value">{{ stats.seances }}</div>
+          <div class="stat-value">{{ statistiques.seances }}</div>
           <div class="stat-label">Séances planifiées</div>
           <div class="stat-change up"><i class="bi bi-arrow-up-short"></i> Cette semaine</div>
         </div>
@@ -73,7 +73,7 @@
       <div class="stat-card blue">
         <div class="stat-icon blue"><i class="bi bi-book-half"></i></div>
         <div class="stat-info">
-          <div class="stat-value">{{ stats.cours }}</div>
+          <div class="stat-value">{{ statistiques.cours }}</div>
           <div class="stat-label">Cours enregistrés</div>
           <div class="stat-change up"><i class="bi bi-arrow-up-short"></i> Actifs</div>
         </div>
@@ -178,11 +178,11 @@
           @for (act of activites; track act.titre) {
             <div class="status-item">
               <div class="status-icon {{ act.statut }}">
-                <i class="bi {{ getStatutIcon(act.statut) }}"></i>
+                <i class="bi {{ obtenirIconeStatut(act.statut) }}"></i>
               </div>
               <div class="status-text" style="flex:1">
                 <div class="s-title">{{ act.titre }}</div>
-                <div class="s-desc">{{ act.desc }}</div>
+                <div class="s-desc">{{ act.description }}</div>
               </div>
               <div style="font-size:.72rem;color:var(--text-muted);white-space:nowrap">{{ act.heure }}</div>
             </div>

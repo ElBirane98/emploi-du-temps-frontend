@@ -15,33 +15,29 @@ export class ListeCoursComponent implements OnInit {
   cours: Cours[] = [];
   filtre = '';
   filtreFiliere = '';
-  confirmation: number | null = null;
+  suppressionEnAttente: number | null = null;
 
   filieres: string[] = [];
 
-  constructor(private service: CoursService) {}
+  constructor(private serviceCours: CoursService) {}
 
   ngOnInit() {
-    this.service.getCours().subscribe(d => {
-      this.cours = d;
-      this.filieres = [...new Set(d.map(c => c.filiere))];
+    this.serviceCours.getCours().subscribe(donnees => {
+      this.cours = donnees;
+      this.filieres = [...new Set(donnees.map(cours => cours.filiere))];
     });
   }
 
-  get filtres(): Cours[] {
-    const q = this.filtre.toLowerCase();
-    return this.cours.filter(c =>
-      (c.intitule.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)) &&
-      (!this.filtreFiliere || c.filiere === this.filtreFiliere)
+  get coursFiltres(): Cours[] {
+    const recherche = this.filtre.toLowerCase();
+    return this.cours.filter(cours =>
+      (cours.intitule.toLowerCase().includes(recherche) || cours.code.toLowerCase().includes(recherche)) &&
+      (!this.filtreFiliere || cours.filiere === this.filtreFiliere)
     );
   }
 
   supprimer(id: number) {
-    this.cours = this.cours.filter(c => c.id !== id);
-    this.confirmation = null;
-  }
-
-  badgeType(type: string): string {
-    return { cours:'cours', td:'td', tp:'tp', examen:'examen' }[type] || 'cours';
+    this.cours = this.cours.filter(cours => cours.id !== id);
+    this.suppressionEnAttente = null;
   }
 }

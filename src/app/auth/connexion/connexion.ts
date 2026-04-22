@@ -12,15 +12,15 @@ import { AuthentificationService } from '../../core/services/authentification.se
   styleUrl: './connexion.css'
 })
 export class ConnexionComponent {
-  email = '';
+  courriel = '';
   motDePasse = '';
   erreur = '';
   chargement = false;
-  afficherMDP = false;
+  afficherMotDePasse = false;
 
   constructor(
-    private authService: AuthentificationService,
-    private router: Router
+    private serviceAuthentification: AuthentificationService,
+    private routeur: Router
   ) {}
 
   seConnecter() {
@@ -28,21 +28,25 @@ export class ConnexionComponent {
     this.erreur = '';
 
     // Mode démo : connexion directe sans API
-    const emailsDemo = ['admin@ugb.edu.sn', 'admin', ''];
-    const mdpDemo    = ['admin123', 'admin', ''];
+    const courrielsDemo = ['admin@ugb.edu.sn', 'admin', ''];
+    const motsDePasseDemo = ['admin123', 'admin', ''];
 
-    if (emailsDemo.includes(this.email) || mdpDemo.includes(this.motDePasse) || this.email.length > 0) {
+    if (
+      courrielsDemo.includes(this.courriel) ||
+      motsDePasseDemo.includes(this.motDePasse) ||
+      this.courriel.length > 0
+    ) {
       setTimeout(() => {
         localStorage.setItem('token', 'demo-token-2026');
-        this.router.navigate(['/admin/tableau-de-bord']);
+        this.routeur.navigate(['/admin/tableau-de-bord']);
       }, 800);
       return;
     }
 
-    this.authService.connexion(this.email, this.motDePasse).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/admin/tableau-de-bord']);
+    this.serviceAuthentification.connexion(this.courriel, this.motDePasse).subscribe({
+      next: (reponse: any) => {
+        localStorage.setItem('token', reponse.token);
+        this.routeur.navigate(['/admin/tableau-de-bord']);
       },
       error: () => {
         this.erreur = 'Email ou mot de passe incorrect.';

@@ -3,12 +3,12 @@ import { RouterLink, RouterLinkActive, Router, RouterOutlet } from '@angular/rou
 import { CommonModule } from '@angular/common';
 import { AuthentificationService } from '../../../core/services/authentification.service';
 
-interface NavItem {
-  label: string;
-  icon: string;
-  route?: string;
-  children?: NavItem[];
-  expanded?: boolean;
+interface ElementMenu {
+  libelle: string;
+  icone: string;
+  lien?: string;
+  enfants?: ElementMenu[];
+  estDeplie?: boolean;
 }
 
 @Component({
@@ -21,27 +21,27 @@ interface NavItem {
 export class LayoutAdminComponent {
   readonly annee = new Date().getFullYear();
 
-  navItems: NavItem[] = [
-    { label: 'Tableau de bord', icon: 'bi-speedometer2', route: '/admin/tableau-de-bord' },
-    { label: 'Emploi du Temps',  icon: 'bi-calendar3',   route: '/admin/grille-edt' },
+  elementsMenu: ElementMenu[] = [
+    { libelle: 'Tableau de bord', icone: 'bi-speedometer2', lien: '/admin/tableau-de-bord' },
+    { libelle: 'Emploi du temps', icone: 'bi-calendar3', lien: '/admin/grille-edt' },
     {
-      label: 'Séances', icon: 'bi-calendar-plus', expanded: false,
-      children: [
-        { label: 'Créer une séance',  icon: 'bi-plus-circle',      route: '/admin/formulaire-seance' },
-        { label: 'Liste des séances', icon: 'bi-list-ul',         route: '/admin/liste-seances' },
+      libelle: 'Séances', icone: 'bi-calendar-plus', estDeplie: false,
+      enfants: [
+        { libelle: 'Créer une séance', icone: 'bi-plus-circle', lien: '/admin/formulaire-seance' },
+        { libelle: 'Liste des séances', icone: 'bi-list-ul', lien: '/admin/liste-seances' },
       ]
     },
-    { label: 'Enseignants', icon: 'bi-person-badge',   route: '/admin/liste-enseignants' },
-    { label: 'Cours',       icon: 'bi-book-half',      route: '/admin/liste-cours' },
-    { label: 'Salles',      icon: 'bi-door-open',      route: '/admin/liste-salles' },
-    { label: 'Classes',     icon: 'bi-diagram-3',      route: '/admin/liste-classes' },
-    { label: 'Départements',icon: 'bi-building',       route: '/admin/liste-departements' },
-    { label: 'Filières',    icon: 'bi-mortarboard',    route: '/admin/liste-filieres' },
+    { libelle: 'Enseignants', icone: 'bi-person-badge', lien: '/admin/liste-enseignants' },
+    { libelle: 'Cours', icone: 'bi-book-half', lien: '/admin/liste-cours' },
+    { libelle: 'Salles', icone: 'bi-door-open', lien: '/admin/liste-salles' },
+    { libelle: 'Classes', icone: 'bi-diagram-3', lien: '/admin/liste-classes' },
+    { libelle: 'Départements', icone: 'bi-building', lien: '/admin/liste-departements' },
+    { libelle: 'Filières', icone: 'bi-mortarboard', lien: '/admin/liste-filieres' },
   ];
 
   constructor(
-    private authService: AuthentificationService,
-    private router: Router
+    private serviceAuthentification: AuthentificationService,
+    private routeur: Router
   ) {}
 
   get nomUtilisateur(): string {
@@ -52,11 +52,11 @@ export class LayoutAdminComponent {
     return 'B';
   }
 
-  toggleSubmenu(item: NavItem) {
-    item.expanded = !item.expanded;
+  basculerSousMenu(element: ElementMenu) {
+    element.estDeplie = !element.estDeplie;
   }
 
   deconnexion() {
-    this.authService.deconnexion();
+    this.serviceAuthentification.deconnexion();
   }
 }

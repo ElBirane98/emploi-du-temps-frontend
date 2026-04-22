@@ -3,7 +3,7 @@
   <div class="page-header">
     <div>
       <div class="page-title"><i class="bi bi-book-half me-2" style="color:var(--primary)"></i>Cours</div>
-      <div class="page-subtitle">{{ filtres.length }} cours enregistré(s)</div>
+      <div class="page-subtitle">{{ coursFiltres.length }} cours enregistré(s)</div>
     </div>
     <button class="btn-primary-custom" id="btn-ajouter-cours">
       <i class="bi bi-plus-lg"></i> Ajouter un cours
@@ -42,29 +42,29 @@
           </tr>
         </thead>
         <tbody>
-          @for (c of filtres; track c.id) {
+          @for (coursItem of coursFiltres; track coursItem.id) {
             <tr>
               <td>
-                <span style="font-family:monospace;font-weight:700;color:var(--primary);font-size:.85rem">{{ c.code }}</span>
+                <span style="font-family:monospace;font-weight:700;color:var(--primary);font-size:.85rem">{{ coursItem.code }}</span>
               </td>
-              <td style="font-weight:600">{{ c.intitule }}</td>
+              <td style="font-weight:600">{{ coursItem.intitule }}</td>
               <td>
-                <span class="badge-custom cours">{{ c.filiere }}</span>
+                <span class="badge-custom cours">{{ coursItem.filiere }}</span>
               </td>
-              <td style="text-align:center">S{{ c.semestre }}</td>
+              <td style="text-align:center">S{{ coursItem.semestre }}</td>
               <td style="text-align:center">
-                <span style="font-weight:700;color:var(--primary)">{{ c.credits }}</span>
+                <span style="font-weight:700;color:var(--primary)">{{ coursItem.credits }}</span>
                 <span style="font-size:.72rem;color:var(--text-muted)"> cr.</span>
               </td>
               <td>
                 <div class="d-flex gap-1 flex-wrap">
-                  @for (t of c.type_seances; track t) {
-                    <span class="badge-custom {{ t }}">{{ t | uppercase }}</span>
+                  @for (typeSeance of coursItem.type_seances; track typeSeance) {
+                    <span class="badge-custom {{ typeSeance }}">{{ typeSeance | uppercase }}</span>
                   }
                 </div>
               </td>
               <td style="text-align:center">
-                <span style="font-weight:600">{{ c.volume_horaire }}h</span>
+                <span style="font-weight:600">{{ coursItem.volume_horaire }}h</span>
               </td>
               <td>
                 <div class="d-flex gap-1 justify-content-center">
@@ -73,14 +73,14 @@
                   </button>
                   <button class="header-btn" title="Supprimer"
                           style="width:32px;height:32px;font-size:.85rem;color:#dc2626"
-                          (click)="confirmation = c.id">
+                          (click)="suppressionEnAttente = coursItem.id">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </td>
             </tr>
           }
-          @if (filtres.length === 0) {
+          @if (coursFiltres.length === 0) {
             <tr>
               <td colspan="8" class="text-center py-5" style="color:var(--text-muted)">
                 <i class="bi bi-book fs-3 d-block mb-2"></i>
@@ -94,9 +94,9 @@
   </div>
 
   <!-- Confirmation -->
-  @if (confirmation !== null) {
+  @if (suppressionEnAttente !== null) {
     <div style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1050;display:flex;align-items:center;justify-content:center"
-         (click)="confirmation = null">
+         (click)="suppressionEnAttente = null">
       <div class="card-premium p-4" style="width:360px;max-width:95vw" (click)="$event.stopPropagation()">
         <div class="text-center mb-3">
           <div style="width:56px;height:56px;border-radius:50%;background:rgba(220,38,38,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
@@ -106,10 +106,10 @@
           <p style="font-size:.85rem;color:var(--text-secondary)">Cette action est irréversible.</p>
         </div>
         <div class="d-flex gap-2">
-          <button class="btn-outline-custom flex-fill justify-content-center" (click)="confirmation = null">Annuler</button>
+          <button class="btn-outline-custom flex-fill justify-content-center" (click)="suppressionEnAttente = null">Annuler</button>
           <button class="btn-primary-custom flex-fill justify-content-center"
                   style="background:linear-gradient(135deg,#991b1b,#dc2626)"
-                  (click)="supprimer(confirmation)">Supprimer</button>
+                  (click)="supprimer(suppressionEnAttente)">Supprimer</button>
         </div>
       </div>
     </div>

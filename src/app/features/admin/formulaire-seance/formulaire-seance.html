@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="p-4">
-          <form [formGroup]="form" (ngSubmit)="enregistrer()">
+          <form [formGroup]="formulaireSeance" (ngSubmit)="enregistrer()">
 
             <!-- Ligne 1: Cours + Type -->
             <div class="row g-3 mb-3">
@@ -40,13 +40,13 @@
                 <div class="form-group">
                   <label class="form-label-custom" for="cours">Cours *</label>
                   <select id="cours" class="form-control-custom form-select-custom" formControlName="cours"
-                          [class.border-danger]="isInvalid('cours')">
+                          [class.border-danger]="champInvalide('cours')">
                     <option value="">— Sélectionner un cours —</option>
-                    @for (c of coursList; track c.id) {
-                      <option [value]="c.intitule">{{ c.code }} — {{ c.intitule }}</option>
+                    @for (coursItem of listeCours; track coursItem.id) {
+                      <option [value]="coursItem.intitule">{{ coursItem.code }} — {{ coursItem.intitule }}</option>
                     }
                   </select>
-                  @if (isInvalid('cours')) { <div style="color:#dc2626;font-size:.75rem;margin-top:4px">Champ requis</div> }
+                  @if (champInvalide('cours')) { <div style="color:#dc2626;font-size:.75rem;margin-top:4px">Champ requis</div> }
                 </div>
               </div>
               <div class="col-md-4">
@@ -65,13 +65,13 @@
             <div class="form-group mb-3">
               <label class="form-label-custom" for="enseignant">Enseignant *</label>
               <select id="enseignant" class="form-control-custom form-select-custom" formControlName="enseignant"
-                      [class.border-danger]="isInvalid('enseignant')">
+                      [class.border-danger]="champInvalide('enseignant')">
                 <option value="">— Sélectionner un enseignant —</option>
-                @for (e of enseignants; track e.id) {
-                  <option [value]="e.nom">{{ e.prenom }} {{ e.nom }} — {{ e.specialite }}</option>
+                @for (enseignant of enseignants; track enseignant.id) {
+                  <option [value]="enseignant.nom">{{ enseignant.prenom }} {{ enseignant.nom }} — {{ enseignant.specialite }}</option>
                 }
               </select>
-              @if (isInvalid('enseignant')) { <div style="color:#dc2626;font-size:.75rem;margin-top:4px">Champ requis</div> }
+              @if (champInvalide('enseignant')) { <div style="color:#dc2626;font-size:.75rem;margin-top:4px">Champ requis</div> }
             </div>
 
             <!-- Ligne 3: Jour + Heure début + Heure fin -->
@@ -80,7 +80,7 @@
                 <div class="form-group">
                   <label class="form-label-custom" for="jour">Jour *</label>
                   <select id="jour" class="form-control-custom form-select-custom" formControlName="jour">
-                    @for (j of jours; track j) { <option [value]="j">{{ j }}</option> }
+                    @for (jour of jours; track jour) { <option [value]="jour">{{ jour }}</option> }
                   </select>
                 </div>
               </div>
@@ -88,7 +88,7 @@
                 <div class="form-group">
                   <label class="form-label-custom" for="heure_debut">Heure début *</label>
                   <select id="heure_debut" class="form-control-custom form-select-custom" formControlName="heure_debut">
-                    @for (h of heures; track h) { <option [value]="h">{{ h }}</option> }
+                    @for (heure of heures; track heure) { <option [value]="heure">{{ heure }}</option> }
                   </select>
                 </div>
               </div>
@@ -96,7 +96,7 @@
                 <div class="form-group">
                   <label class="form-label-custom" for="heure_fin">Heure fin *</label>
                   <select id="heure_fin" class="form-control-custom form-select-custom" formControlName="heure_fin">
-                    @for (h of heures; track h) { <option [value]="h">{{ h }}</option> }
+                    @for (heure of heures; track heure) { <option [value]="heure">{{ heure }}</option> }
                   </select>
                 </div>
               </div>
@@ -108,20 +108,20 @@
                 <div class="form-group">
                   <label class="form-label-custom" for="salle">Salle *</label>
                   <select id="salle" class="form-control-custom form-select-custom" formControlName="salle"
-                          [class.border-danger]="isInvalid('salle')">
+                          [class.border-danger]="champInvalide('salle')">
                     <option value="">— Sélectionner une salle —</option>
-                    @for (s of salles; track s.id) {
-                      <option [value]="s.nom">{{ s.nom }} (cap. {{ s.capacite }})</option>
+                    @for (salle of salles; track salle.id) {
+                      <option [value]="salle.nom">{{ salle.nom }} (cap. {{ salle.capacite }})</option>
                     }
                   </select>
-                  @if (isInvalid('salle')) { <div style="color:#dc2626;font-size:.75rem;margin-top:4px">Champ requis</div> }
+                  @if (champInvalide('salle')) { <div style="color:#dc2626;font-size:.75rem;margin-top:4px">Champ requis</div> }
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="form-label-custom" for="classe">Classe / Groupe *</label>
                   <select id="classe" class="form-control-custom form-select-custom" formControlName="classe">
-                    @for (c of classes; track c) { <option [value]="c">{{ c }}</option> }
+                    @for (classe of classesDisponibles; track classe) { <option [value]="classe">{{ classe }}</option> }
                   </select>
                 </div>
               </div>
@@ -175,21 +175,21 @@
       </div>
 
       <!-- Aperçu -->
-      @if (form.value.cours) {
+      @if (formulaireSeance.value.cours) {
         <div class="card-premium">
           <div class="card-header-premium">
             <div class="card-title-premium"><i class="bi bi-eye"></i> Aperçu</div>
           </div>
           <div class="p-3">
             <div class="seance-card {{ 'cours-type' }}" style="cursor:default">
-              <div class="seance-cours">{{ form.value.cours || 'Nom du cours' }}</div>
+              <div class="seance-cours">{{ formulaireSeance.value.cours || 'Nom du cours' }}</div>
               <div class="seance-meta">
-                {{ form.value.jour }} · {{ form.value.heure_debut }}–{{ form.value.heure_fin }}
+                {{ formulaireSeance.value.jour }} · {{ formulaireSeance.value.heure_debut }}–{{ formulaireSeance.value.heure_fin }}
               </div>
               <div class="seance-meta mt-1">
-                🏛 {{ form.value.salle || '—' }} &nbsp;·&nbsp; 👨‍🏫 {{ form.value.enseignant || '—' }}
+                🏛 {{ formulaireSeance.value.salle || '—' }} &nbsp;·&nbsp; 👨‍🏫 {{ formulaireSeance.value.enseignant || '—' }}
               </div>
-              <span class="seance-badge {{ form.value.type }}">{{ form.value.type | uppercase }}</span>
+              <span class="seance-badge {{ formulaireSeance.value.type }}">{{ formulaireSeance.value.type | uppercase }}</span>
             </div>
           </div>
         </div>

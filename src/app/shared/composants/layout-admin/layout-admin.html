@@ -21,35 +21,35 @@
         <span class="sidebar-section-label">Menu principal</span>
       </div>
 
-      @for (item of navItems; track item.label) {
+      @for (element of elementsMenu; track element.libelle) {
 
-        @if (!item.children) {
+        @if (!element.enfants) {
           <!-- Lien simple -->
           <a class="nav-item-link"
-             [routerLink]="item.route"
+             [routerLink]="element.lien"
              routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: false}">
-            <i class="bi {{ item.icon }}"></i>
-            <span class="nav-label">{{ item.label }}</span>
+            <i class="bi {{ element.icone }}"></i>
+            <span class="nav-label">{{ element.libelle }}</span>
           </a>
         } @else {
           <!-- Lien avec sous-menu -->
-          <button class="nav-item-link" (click)="toggleSubmenu(item)">
-            <i class="bi {{ item.icon }}"></i>
-            <span class="nav-label">{{ item.label }}</span>
+          <button class="nav-item-link" (click)="basculerSousMenu(element)">
+            <i class="bi {{ element.icone }}"></i>
+            <span class="nav-label">{{ element.libelle }}</span>
             <i class="bi nav-chevron"
-               [class.bi-chevron-down]="!item.expanded"
-               [class.bi-chevron-up]="item.expanded"></i>
+               [class.bi-chevron-down]="!element.estDeplie"
+               [class.bi-chevron-up]="element.estDeplie"></i>
           </button>
 
-          @if (item.expanded) {
+          @if (element.estDeplie) {
             <div class="nav-submenu">
-              @for (child of item.children; track child.label) {
+              @for (enfant of element.enfants; track enfant.libelle) {
                 <a class="nav-item-link"
-                   [routerLink]="child.route"
+                   [routerLink]="enfant.lien"
                    routerLinkActive="active">
-                  <i class="bi {{ child.icon }}"></i>
-                  <span class="nav-label">{{ child.label }}</span>
+                  <i class="bi {{ enfant.icone }}"></i>
+                  <span class="nav-label">{{ enfant.libelle }}</span>
                 </a>
               }
             </div>
