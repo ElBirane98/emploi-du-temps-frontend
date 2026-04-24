@@ -31,8 +31,8 @@ export class SeanceService {
   constructor(private http: HttpClient) {}
 
   getSeances(): Observable<Seance[]> {
-    // return this.http.get<Seance[]>(`${this.apiUrl}/seances`);
-    return of(SEANCES_MOCK);
+    return this.http.get<Seance[]>(`${this.apiUrl}/seances`);
+    // return of(SEANCES_MOCK);
   }
 
   getSeanceById(id: number): Observable<Seance | undefined> {

@@ -23,8 +23,8 @@ export class EnseignantService {
   constructor(private http: HttpClient) {}
 
   getEnseignants(): Observable<Enseignant[]> {
-    // return this.http.get<Enseignant[]>(`${this.apiUrl}/enseignants`);
-    return of(ENSEIGNANTS_MOCK);
+    return this.http.get<Enseignant[]>(`${this.apiUrl}/enseignants`);
+    // return of(ENSEIGNANTS_MOCK);
   }
 
   creerEnseignant(e: Enseignant): Observable<Enseignant> {

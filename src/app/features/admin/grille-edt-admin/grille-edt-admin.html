@@ -4,7 +4,7 @@
   <!-- En-tête -->
   <div class="page-header">
     <div>
-      <div class="page-title"><i class="bi bi-calendar3 me-2" style="color:var(--primary)"></i>Emploi du Temps</div>
+      <div class="page-title"><i class="bi bi-calendar3 me-2 titre-icone"></i>Emploi du Temps</div>
       <div class="page-subtitle">Visualisation et gestion des séances planifiées</div>
     </div>
     <div class="d-flex gap-2 align-items-center">
@@ -20,8 +20,14 @@
   <!-- Barre de filtres -->
   <div class="filters-bar">
     <div class="filter-item">
-      <span class="filter-label">Classe / Groupe</span>
-      <select class="filter-select" [(ngModel)]="filtreClasse">
+      <label class="filter-label" for="filtre-classe">Classe / Groupe</label>
+      <select
+        id="filtre-classe"
+        class="filter-select"
+        [(ngModel)]="filtreClasse"
+        aria-label="Filtrer par classe ou groupe"
+        title="Filtrer par classe ou groupe"
+      >
         <option value="">Toutes les classes</option>
         @for (classe of classesDisponibles; track classe) {
           <option [value]="classe">{{ classe }}</option>
@@ -29,8 +35,14 @@
       </select>
     </div>
     <div class="filter-item">
-      <span class="filter-label">Enseignant</span>
-      <select class="filter-select" [(ngModel)]="filtreEnseignant">
+      <label class="filter-label" for="filtre-enseignant">Enseignant</label>
+      <select
+        id="filtre-enseignant"
+        class="filter-select"
+        [(ngModel)]="filtreEnseignant"
+        aria-label="Filtrer par enseignant"
+        title="Filtrer par enseignant"
+      >
         <option value="">Tous les enseignants</option>
         @for (enseignant of enseignants; track enseignant.id) {
           <option [value]="enseignant.nom">{{ enseignant.prenom }} {{ enseignant.nom }}</option>
@@ -38,8 +50,14 @@
       </select>
     </div>
     <div class="filter-item">
-      <span class="filter-label">Salle</span>
-      <select class="filter-select" [(ngModel)]="filtreSalle">
+      <label class="filter-label" for="filtre-salle">Salle</label>
+      <select
+        id="filtre-salle"
+        class="filter-select"
+        [(ngModel)]="filtreSalle"
+        aria-label="Filtrer par salle"
+        title="Filtrer par salle"
+      >
         <option value="">Toutes les salles</option>
         @for (salle of salles; track salle.id) {
           <option [value]="salle.nom">{{ salle.nom }}</option>
@@ -59,7 +77,7 @@
       <div class="legend-item"><div class="legend-dot tp"></div> TP</div>
       <div class="legend-item"><div class="legend-dot examen"></div> Examen</div>
     </div>
-    <span style="font-size:.75rem;color:var(--text-muted)">
+    <span class="legende-info">
       <i class="bi bi-hand-index me-1"></i>Cliquez sur une séance pour voir les détails
     </span>
   </div>
@@ -82,8 +100,8 @@
           @for (creneau of creneauxHoraires; track creneau.debut) {
             <tr>
               <td class="heure-cell">
-                <div style="font-weight:700">{{ creneau.debut }}</div>
-                <div style="font-size:.68rem;color:var(--text-muted);margin-top:2px">{{ creneau.fin }}</div>
+                <div class="heure-debut">{{ creneau.debut }}</div>
+                <div class="heure-fin">{{ creneau.fin }}</div>
               </td>
               @for (jour of jours; track jour) {
                 <td>
@@ -91,9 +109,9 @@
                     <div class="seance-card {{ classeSeance(seance.type) }}" (click)="ouvrirDetailSeance(seance)">
                       <div class="seance-cours">{{ seance.cours }}</div>
                       <div class="seance-meta">
-                        <i class="bi bi-person-fill" style="font-size:.65rem"></i> {{ seance.enseignant }}
+                        <i class="bi bi-person-fill meta-icone"></i> {{ seance.enseignant }}
                         &nbsp;·&nbsp;
-                        <i class="bi bi-door-open" style="font-size:.65rem"></i> {{ seance.salle }}
+                        <i class="bi bi-door-open meta-icone"></i> {{ seance.salle }}
                       </div>
                       <span class="seance-badge {{ seance.type }}">{{ seance.type | uppercase }}</span>
                     </div>
@@ -112,49 +130,52 @@
 
   <!-- Modal détail séance -->
   @if (detailSeance) {
-    <div class="modal-backdrop-custom" (click)="fermerDetail()"
-         style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1050;display:flex;align-items:center;justify-content:center">
-      <div class="card-premium" (click)="$event.stopPropagation()"
-           style="width:460px;max-width:95vw;animation:fadeInUp .2s ease">
-        <div class="modal-header-custom" style="border-radius:12px 12px 0 0">
+    <div class="modal-backdrop-custom" (click)="fermerDetail()">
+      <div class="card-premium modal-detail-carte" (click)="$event.stopPropagation()">
+        <div class="modal-header-custom modal-entete-arrondie">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="mb-0 fw-bold">
               <i class="bi bi-calendar-event me-2"></i>Détail de la séance
             </h6>
-            <button (click)="fermerDetail()" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer">
+            <button
+              class="btn-fermer-modal"
+              (click)="fermerDetail()"
+              aria-label="Fermer le détail de la séance"
+              title="Fermer"
+            >
               <i class="bi bi-x-lg"></i>
             </button>
           </div>
         </div>
         <div class="p-4">
           <div class="mb-3">
-            <span class="seance-badge {{ detailSeance.type }}" style="font-size:.75rem;padding:4px 12px">{{ detailSeance.type | uppercase }}</span>
+            <span class="seance-badge {{ detailSeance.type }} badge-detail-seance">{{ detailSeance.type | uppercase }}</span>
           </div>
-          <h5 class="fw-bold mb-3" style="color:var(--text-primary)">{{ detailSeance.cours }}</h5>
-          <div class="d-flex flex-column gap-2" style="font-size:.875rem">
+          <h5 class="fw-bold mb-3 titre-detail-seance">{{ detailSeance.cours }}</h5>
+          <div class="d-flex flex-column gap-2 infos-detail-seance">
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-calendar3" style="color:var(--primary);width:18px"></i>
-              <span style="color:var(--text-secondary)">Jour :</span>
+              <i class="bi bi-calendar3 icone-detail-seance"></i>
+              <span class="libelle-detail-seance">Jour :</span>
               <strong>{{ detailSeance.jour }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-clock" style="color:var(--primary);width:18px"></i>
-              <span style="color:var(--text-secondary)">Horaire :</span>
+              <i class="bi bi-clock icone-detail-seance"></i>
+              <span class="libelle-detail-seance">Horaire :</span>
               <strong>{{ detailSeance.heure_debut }} — {{ detailSeance.heure_fin }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-person-badge" style="color:var(--primary);width:18px"></i>
-              <span style="color:var(--text-secondary)">Enseignant :</span>
+              <i class="bi bi-person-badge icone-detail-seance"></i>
+              <span class="libelle-detail-seance">Enseignant :</span>
               <strong>{{ detailSeance.enseignant }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-door-open" style="color:var(--primary);width:18px"></i>
-              <span style="color:var(--text-secondary)">Salle :</span>
+              <i class="bi bi-door-open icone-detail-seance"></i>
+              <span class="libelle-detail-seance">Salle :</span>
               <strong>{{ detailSeance.salle }}</strong>
             </div>
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-diagram-3" style="color:var(--primary);width:18px"></i>
-              <span style="color:var(--text-secondary)">Classe :</span>
+              <i class="bi bi-diagram-3 icone-detail-seance"></i>
+              <span class="libelle-detail-seance">Classe :</span>
               <strong>{{ detailSeance.classe }}</strong>
             </div>
           </div>
@@ -162,7 +183,7 @@
             <a [routerLink]="['/admin/formulaire-seance', detailSeance.id]" class="btn-primary-custom flex-fill justify-content-center">
               <i class="bi bi-pencil"></i> Modifier
             </a>
-            <button class="btn-outline-custom" style="color:#dc2626;border-color:#dc2626" (click)="fermerDetail()">
+            <button class="btn-outline-custom btn-danger-outline" (click)="fermerDetail()">
               <i class="bi bi-trash"></i> Supprimer
             </button>
           </div>

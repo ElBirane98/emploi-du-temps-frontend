@@ -22,8 +22,8 @@ export class CoursService {
   constructor(private http: HttpClient) {}
 
   getCours(): Observable<Cours[]> {
-    // return this.http.get<Cours[]>(`${this.apiUrl}/cours`);
-    return of(COURS_MOCK);
+    return this.http.get<Cours[]>(`${this.apiUrl}/cours`);
+    // return of(COURS_MOCK);
   }
 
   creerCours(c: Cours): Observable<Cours> {

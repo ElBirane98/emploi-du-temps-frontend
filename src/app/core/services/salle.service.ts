@@ -23,8 +23,8 @@ export class SalleService {
   constructor(private http: HttpClient) {}
 
   getSalles(): Observable<Salle[]> {
-    // return this.http.get<Salle[]>(`${this.apiUrl}/salles`);
-    return of(SALLES_MOCK);
+    return this.http.get<Salle[]>(`${this.apiUrl}/salles`);
+    // return of(SALLES_MOCK);
   }
 
   creerSalle(s: Salle): Observable<Salle> {

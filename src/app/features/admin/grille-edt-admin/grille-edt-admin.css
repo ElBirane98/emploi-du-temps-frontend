@@ -1,1 +1,78 @@
 /* grille-edt-admin.css */
+.titre-icone {
+  color: var(--primary);
+}
+
+.legende-info {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.meta-icone {
+  font-size: 0.65rem;
+}
+
+.heure-debut {
+  font-weight: 700;
+}
+
+.heure-fin {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-detail-carte {
+  width: 460px;
+  max-width: 95vw;
+  animation: fadeInUp 0.2s ease;
+}
+
+.modal-entete-arrondie {
+  border-radius: 12px 12px 0 0;
+}
+
+.btn-fermer-modal {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.badge-detail-seance {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+}
+
+.titre-detail-seance {
+  color: var(--text-primary);
+}
+
+.infos-detail-seance {
+  font-size: 0.875rem;
+}
+
+.icone-detail-seance {
+  color: var(--primary);
+  width: 18px;
+}
+
+.libelle-detail-seance {
+  color: var(--text-secondary);
+}
+
+.btn-danger-outline {
+  color: #dc2626;
+  border-color: #dc2626;
+}
